@@ -171,11 +171,7 @@ public class Main {
                      System.out.print("¿Desea crear el usuario ahora? (S/N): ");
                      String respuesta = sc.nextLine().trim().toUpperCase();
                      if (respuesta.equals("S")) {
-                         System.out.print("Escriba el nombre del nuevo usuario: ");
-                         String nombreNuevo = sc.nextLine();
-                         u1 = new Usuario(cUsuario, nombreNuevo);
-                         usuarios.add(u1);
-                         System.out.println("Usuario creado correctamente.");
+                         u1 = crearUsuario();
                      } else {
                          System.out.println("Operación de préstamo cancelada.");
                          return;
@@ -184,7 +180,7 @@ public class Main {
                 // Intentamos realizar el préstamo
                  Prestable pPrestable = (Prestable) pEncontrado;
                  pPrestable.prestar(u1);
-                 System.out.println("✓ Producto prestado correctamente.");
+                 System.out.println("Producto prestado correctamente.");
     }
 
     public static void devolver(){
@@ -243,7 +239,7 @@ public class Main {
         // Añadimos el nuevo usuario a la lista global de usuarios
         usuarios.add(nuevoUsuario);
 
-        System.out.println("Usuario '" + nombre + "' con código: " + nuevoId + " creado correctamente.");
+        System.out.println("Usuario '" + nombre + "' con id: " + nuevoId + " creado correctamente.");
         return nuevoUsuario;
     }
 
