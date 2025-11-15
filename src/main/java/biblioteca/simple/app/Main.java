@@ -52,8 +52,9 @@ public class Main {
             System.out.println("3. Buscar por año");
             System.out.println("4. Prestar Producto");
             System.out.println("5. Devolver Producto");
-            System.out.println("6. Exportar usuarios");
-            System.out.println("7. Importar usuarios");
+            System.out.println("6. Crear usuario");
+            System.out.println("7. Exportar usuarios");
+            System.out.println("8. Importar usuarios");
             System.out.println("0. Salir");
             while(!sc.hasNextInt()) sc.next();
             op = sc.nextInt();
@@ -66,8 +67,9 @@ public class Main {
                 case 3 -> buscarPorAnio();
                 case 4 -> prestar();
                 case 5 -> devolver();
-                case 6 -> exportarUsuario();
-                case 7 -> importarUsarios();
+                case 6 -> crearUsuario();
+                case 7 -> exportarUsuario();
+                case 8 -> importarUsarios();
                 case 0 -> System.out.println("Sayonara!");
                 default -> System.out.println("Opción no válida");
             }
@@ -149,7 +151,6 @@ public class Main {
                         return false;
                     }
                 })
-
                 .findFirst()
                 .orElse(null);
 
@@ -158,28 +159,35 @@ public class Main {
                      return;
                  }
 
-
                  listarUsuarios();
-
-                 System.out.println("Ingresa código de usurio");
-
+                 System.out.println("Ingresa código de usuario");
                  int cUsuario = sc.nextInt();
                  sc.nextLine();
                  Usuario u1 = getUsuarioPorCodigo(cUsuario);
 
+                 // Si el usuario no existe, ofrecemos crearlo en ese momento
                  if (u1 == null){
-                     System.out.println("Usuari ono encontrado");
+                     System.out.println("Usuario no encontrado.");
+                     System.out.print("¿Desea crear el usuario ahora? (S/N): ");
+                     String respuesta = sc.nextLine().trim().toUpperCase();
+                     if (respuesta.equals("S")) {
+                         System.out.print("Escriba el nombre del nuevo usuario: ");
+                         String nombreNuevo = sc.nextLine();
+                         u1 = new Usuario(cUsuario, nombreNuevo);
+                         usuarios.add(u1);
+                         System.out.println("Usuario creado correctamente.");
+                     } else {
+                         System.out.println("Operación de préstamo cancelada.");
+                         return;
+                     }
                  }
-
+                // Intentamos realizar el préstamo
                  Prestable pPrestable = (Prestable) pEncontrado;
                  pPrestable.prestar(u1);
-
+                 System.out.println("✓ Producto prestado correctamente.");
     }
 
-
     public static void devolver(){
-
-
         List<Producto> pPrestados = catalogo.listar().stream()
                 .filter(p -> p instanceof Prestable pN && pN.estaPrestado())
                 .collect(Collectors.toList());
@@ -204,7 +212,6 @@ public class Main {
                         return false;
                     }
                 })
-
                 .findFirst()
                 .orElse(null);
 
@@ -216,7 +223,28 @@ public class Main {
         Prestable pE = (Prestable) pEncontrado;
         pE.devolver();
         System.out.println("Devuelto correctamente");
+    }
 
+    private static Usuario crearUsuario(){
+        System.out.println("¿Cuál es el nombre del nuevo usuario?");
+        String nombre = sc.nextLine();
+
+        //Generamos nuevo ID automáticamente para evitar problemas
+        // Si la lista está vacía, asignamos id=1; si no, sumamos 1 al id del último usuario
+        int nuevoId;
+        if (usuarios.isEmpty()) {
+            nuevoId = 1;
+        } else {
+            Usuario ultimoUsuario = usuarios.get(usuarios.size() - 1);
+            nuevoId = ultimoUsuario.getId() + 1;
+        }
+        // Creamos el objeto Usuario con el id generado y el nombre introducido
+        Usuario nuevoUsuario = new Usuario(nuevoId, nombre);
+        // Añadimos el nuevo usuario a la lista global de usuarios
+        usuarios.add(nuevoUsuario);
+
+        System.out.println("Usuario '" + nombre + "' con código: " + nuevoId + " creado correctamente.");
+        return nuevoUsuario;
     }
 
     private static void exportarUsuario(){

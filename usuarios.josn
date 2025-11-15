@@ -6,5 +6,9 @@
   {
     "id": 2,
     "nombre": "María"
+  },
+  {
+    "id": 3,
+    "nombre": "Daniel"
   }
 ]
