@@ -4,7 +4,7 @@ import biblioteca.simple.contratos.Prestable;
 
 // La clase Pelicula hereda de Producto, por lo que tiene todos sus atributos:
 // id, titulo, anho y formato. Además, añade información específica de las películas.
-public class Pelicula extends Producto  implements Prestable {
+public class Pelicula extends Producto implements Prestable {
 
     // Atributos propios de una película
     private String director;
@@ -41,20 +41,29 @@ public class Pelicula extends Producto  implements Prestable {
         return minutosDuracion;
     }
 
-    @Override public void prestar(Usuario u) {
+    @Override
+    public void prestar(Usuario u) {
         if (prestado) throw new IllegalStateException("Ya prestada");
         prestado = true;
         this.prestadoA = u;
     }
 
-    @Override public void devolver() { prestado = false; this.prestadoA = null; }
-    @Override public boolean estaPrestado() { return prestado; }
+    @Override
+    public void devolver() {
+        prestado = false;
+        this.prestadoA = null;
+    }
+
+    @Override
+    public boolean estaPrestado() {
+        return prestado;
+    }
 
     // Sobrescribimos toString() para representar toda la información
     // de la película en forma de texto (útil al imprimir por consola)
     @Override
     public String toString() {
-        return  "Pelicula{" +
+        return "Pelicula{" +
                 "director='" + director + '\'' +
                 ", minutosDuracion=" + minutosDuracion +
                 ", formato=" + formato +

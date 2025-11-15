@@ -27,21 +27,26 @@ public class Videojuego extends Producto implements Prestable {
         this.plataforma = plataforma;
         this.PEGI = PEGI;
     }
+
     // Métodos getter para acceder a los atributos propios
-        // Obtiene la categoría del videojuego.
+    // Obtiene la categoría del videojuego.
     public Categoria getCategoria() {
         return categoria;
     }
-        // Obtiene la Plataforma donde se juega el videojuego.
+
+    // Obtiene la Plataforma donde se juega el videojuego.
     public Plataforma getPlataforma() {
         return plataforma;
     }
-        // Obtiene la clasificación por edad del videojuego.
+
+    // Obtiene la clasificación por edad del videojuego.
     public String getPEGI() {
         return PEGI;
     }
+
     // Implementamos los métodos de lla interfaz prestable
-    @Override public void prestar(Usuario u) {
+    @Override
+    public void prestar(Usuario u) {
         if (prestado) throw new IllegalStateException("El videojuego ya está prestado");
         prestado = true;
         this.prestadoA = u;

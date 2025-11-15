@@ -15,7 +15,7 @@ public class Main {
 
     private static final Catalogo catalogo = new Catalogo();
 
-    private static final List<Usuario> usuarios =new ArrayList<>();
+    private static final List<Usuario> usuarios = new ArrayList<>();
 
 
     private static final Scanner sc = new Scanner(System.in);
@@ -26,13 +26,13 @@ public class Main {
         menu();
     }
 
-    private static void cargarDatos(){
+    private static void cargarDatos() {
         catalogo.alta(new Libro(1, "El Quijote", "1608", Formato.FISICO, "25225", "Cervantes"));
         catalogo.alta(new Libro(2, "El nombre del viento", "2007", Formato.FISICO, "9788401352836", "Patrick Rothfuss"));
         catalogo.alta(new Pelicula(3, "El Padrino", "1972", Formato.FISICO, "rancis Ford Coppola", 175));
         catalogo.alta(new Pelicula(4, "Parásitos", "2019", Formato.FISICO, "Bong Joon-ho", 132));
         // Añadimos los videojuegos al catálogo
-        catalogo.alta(new Videojuego(5, "The Legend of Zelda: Breath of the Wild", "2017", Formato.FISICO,Categoria.AVENTURA, Plataforma.NINTENDO_SWITCH,"PEGI 12"));
+        catalogo.alta(new Videojuego(5, "The Legend of Zelda: Breath of the Wild", "2017", Formato.FISICO, Categoria.AVENTURA, Plataforma.NINTENDO_SWITCH, "PEGI 12"));
         catalogo.alta(new Videojuego(6, "EA Sports FC 25", "2024", Formato.DIGITAL, Categoria.DEPORTES, Plataforma.PLAYSTATION, "PEGI 3"));
 
         usuarios.add(new Usuario(1, "Juan"));
@@ -40,10 +40,8 @@ public class Main {
 
     }
 
-    private static void menu(){
-
+    private static void menu() {
         int op;
-
         do {
 
             System.out.println("\n===Menú de Biblioteca===");
@@ -56,12 +54,12 @@ public class Main {
             System.out.println("7. Exportar usuarios");
             System.out.println("8. Importar usuarios");
             System.out.println("0. Salir");
-            while(!sc.hasNextInt()) sc.next();
+            while (!sc.hasNextInt()) sc.next();
             op = sc.nextInt();
 
             sc.nextLine();
 
-            switch (op){
+            switch (op) {
                 case 1 -> listar();
                 case 2 -> buscarPorTitulo();
                 case 3 -> buscarPorAnio();
@@ -74,56 +72,55 @@ public class Main {
                 default -> System.out.println("Opción no válida");
             }
 
-        } while(op != 0);
+        } while (op != 0);
     }
 
-    private static void listar(){
+    private static void listar() {
         List<Producto> lista = catalogo.listar();
 
-        if(lista.isEmpty()){
+        if (lista.isEmpty()) {
             System.out.println("Catálogo vacío");
             return;
         }
 
         System.out.println("==Lista de productos ===");
 
-        for(Producto p : lista) System.out.println("- " + p);
-
+        for (Producto p : lista) System.out.println("- " + p);
 
     }
 
-    private static void buscarPorTitulo(){
+    private static void buscarPorTitulo() {
         System.out.println("Título (escribe parte del título): ");
         String t = sc.nextLine();
         catalogo.buscar(t).forEach(p -> System.out.println("- " + p));
     }
 
-    private static void buscarPorAnio(){
+    private static void buscarPorAnio() {
         System.out.println("Año: ");
         int a = sc.nextInt();
         sc.nextLine();
         catalogo.buscar(a).forEach(p -> System.out.println("- " + p));
     }
 
-    private static void listarUsuarios(){
+    private static void listarUsuarios() {
         if (usuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados");
             return;
         }
         System.out.println("Lista usuarios");
-        usuarios.forEach( u ->
-                        System.out.println("- Código : " + u.getId() + "| Nombre: " + u.getNombre() )
+        usuarios.forEach(u ->
+                System.out.println("- Código : " + u.getId() + "| Nombre: " + u.getNombre())
         );
     }
 
-    private static Usuario getUsuarioPorCodigo(int id){
+    private static Usuario getUsuarioPorCodigo(int id) {
         return usuarios.stream()
                 .filter(u -> u.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
-    private static void prestar(){
+    private static void prestar() {
 
         // 1)mostrar productos disponibles
 
@@ -131,13 +128,13 @@ public class Main {
                 .filter(p -> p instanceof Prestable pN && !pN.estaPrestado())
                 .collect(Collectors.toList());
 
-        if ( disponibles.isEmpty() ) {
+        if (disponibles.isEmpty()) {
             System.out.println("No hay productos para prestar");
             return;
         }
 
         System.out.println("-- PRODUCTOS DISPONIBLES --");
-        disponibles.forEach( p -> System.out.println("- ID: " + p.getId() + " | " + p));
+        disponibles.forEach(p -> System.out.println("- ID: " + p.getId() + " | " + p));
 
         System.out.println("Escribe el id del producto: ");
         int id = sc.nextInt();
@@ -154,47 +151,47 @@ public class Main {
                 .findFirst()
                 .orElse(null);
 
-                 if (pEncontrado == null){
-                     System.out.println("El id no existe");
-                     return;
-                 }
+        if (pEncontrado == null) {
+            System.out.println("El id no existe");
+            return;
+        }
 
-                 listarUsuarios();
-                 System.out.println("Ingresa código de usuario");
-                 int cUsuario = sc.nextInt();
-                 sc.nextLine();
-                 Usuario u1 = getUsuarioPorCodigo(cUsuario);
+        listarUsuarios();
+        System.out.println("Ingresa código de usuario");
+        int cUsuario = sc.nextInt();
+        sc.nextLine();
+        Usuario u1 = getUsuarioPorCodigo(cUsuario);
 
-                 // Si el usuario no existe, ofrecemos crearlo en ese momento
-                 if (u1 == null){
-                     System.out.println("Usuario no encontrado.");
-                     System.out.print("¿Desea crear el usuario ahora? (S/N): ");
-                     String respuesta = sc.nextLine().trim().toUpperCase();
-                     if (respuesta.equals("S")) {
-                         u1 = crearUsuario();
-                     } else {
-                         System.out.println("Operación de préstamo cancelada.");
-                         return;
-                     }
-                 }
-                // Intentamos realizar el préstamo
-                 Prestable pPrestable = (Prestable) pEncontrado;
-                 pPrestable.prestar(u1);
-                 System.out.println("Producto prestado correctamente.");
+        // Si el usuario no existe, ofrecemos crearlo en ese momento
+        if (u1 == null) {
+            System.out.println("Usuario no encontrado.");
+            System.out.print("¿Desea crear el usuario ahora? (S/N): ");
+            String respuesta = sc.nextLine().trim().toUpperCase();
+            if (respuesta.equals("S")) {
+                u1 = crearUsuario();
+            } else {
+                System.out.println("Operación de préstamo cancelada.");
+                return;
+            }
+        }
+        // Intentamos realizar el préstamo
+        Prestable pPrestable = (Prestable) pEncontrado;
+        pPrestable.prestar(u1);
+        System.out.println("Producto prestado correctamente.");
     }
 
-    public static void devolver(){
+    public static void devolver() {
         List<Producto> pPrestados = catalogo.listar().stream()
                 .filter(p -> p instanceof Prestable pN && pN.estaPrestado())
                 .collect(Collectors.toList());
 
-        if ( pPrestados.isEmpty() ) {
+        if (pPrestados.isEmpty()) {
             System.out.println("No hay productos para prestar");
             return;
         }
 
         System.out.println("-- PRODUCTOS PRESTADOS --");
-        pPrestados.forEach( p -> System.out.println("- ID: " + p.getId() + " | " + p));
+        pPrestados.forEach(p -> System.out.println("- ID: " + p.getId() + " | " + p));
 
         System.out.println("Escribe el id del producto: ");
         int id = sc.nextInt();
@@ -211,7 +208,7 @@ public class Main {
                 .findFirst()
                 .orElse(null);
 
-        if (pEncontrado == null){
+        if (pEncontrado == null) {
             System.out.println("El id no existe");
             return;
         }
@@ -221,7 +218,7 @@ public class Main {
         System.out.println("Devuelto correctamente");
     }
 
-    private static Usuario crearUsuario(){
+    private static Usuario crearUsuario() {
         System.out.println("¿Cuál es el nombre del nuevo usuario?");
         String nombre = sc.nextLine();
 
@@ -243,19 +240,19 @@ public class Main {
         return nuevoUsuario;
     }
 
-    private static void exportarUsuario(){
+    private static void exportarUsuario() {
         //Debemos gestionar las excepciones en esta función también.
-        try{
+        try {
             PersistenciaUsuarios.exportar(usuarios);
             System.out.println("Usuarios exportados correctamente");
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error al exportar usuarios " + e.getMessage());
         }
 
     }
 
-    private static void importarUsarios(){
-        try{
+    private static void importarUsarios() {
+        try {
             List<Usuario> cargados = PersistenciaUsuarios.importar();
             usuarios.clear();
             usuarios.addAll(cargados);

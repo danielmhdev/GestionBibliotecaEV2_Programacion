@@ -1,6 +1,7 @@
 package biblioteca.simple.servicios;
 
 // Importamos la clase Producto, ya que el catálogo gestionará una lista de productos
+
 import biblioteca.simple.modelo.Producto;
 
 import java.util.ArrayList;

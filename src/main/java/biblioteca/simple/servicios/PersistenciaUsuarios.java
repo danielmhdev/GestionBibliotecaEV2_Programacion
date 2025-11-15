@@ -32,13 +32,14 @@ public final class PersistenciaUsuarios {
     public static List<Usuario> importar() throws IOException {
         File f = new File(ARCHIVO);
 
-        if(!f.exists()) return new ArrayList<>();
+        if (!f.exists()) return new ArrayList<>();
 
-        try(Reader r = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8) ){
+        try (Reader r = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8)) {
 
-            Type tipoLista = new TypeToken<ArrayList<Usuario>>() {}.getType();
+            Type tipoLista = new TypeToken<ArrayList<Usuario>>() {
+            }.getType();
 
-            List<Usuario> lista = gson.fromJson(r,tipoLista );
+            List<Usuario> lista = gson.fromJson(r, tipoLista);
 
             return (lista != null) ? lista : new ArrayList<>();
 
