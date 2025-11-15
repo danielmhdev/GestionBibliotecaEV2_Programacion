@@ -31,6 +31,9 @@ public class Main {
         catalogo.alta(new Libro(2, "El nombre del viento", "2007", Formato.FISICO, "9788401352836", "Patrick Rothfuss"));
         catalogo.alta(new Pelicula(3, "El Padrino", "1972", Formato.FISICO, "rancis Ford Coppola", 175));
         catalogo.alta(new Pelicula(4, "Parásitos", "2019", Formato.FISICO, "Bong Joon-ho", 132));
+        // Añadimos los videojuegos al catálogo
+        catalogo.alta(new Videojuego(5, "The Legend of Zelda: Breath of the Wild", "2017", Formato.FISICO,Categoria.AVENTURA, Plataforma.NINTENDO_SWITCH,"PEGI 12"));
+        catalogo.alta(new Videojuego(6, "EA Sports FC 25", "2024", Formato.DIGITAL, Categoria.DEPORTES, Plataforma.PLAYSTATION, "PEGI 3"));
 
         usuarios.add(new Usuario(1, "Juan"));
         usuarios.add(new Usuario(2, "María"));

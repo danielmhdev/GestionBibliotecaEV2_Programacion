@@ -13,23 +13,19 @@ public class Videojuego extends Producto implements Prestable {
     private Usuario prestadoA;
 
     //Constructor usado cuando el objeto proviene de una base de datos(ya tiene un id asignado)
-    public Videojuego(int id, String titulo, String anho, Formato formato, Categoria categoria, Plataforma plataforma, String PEGI, boolean prestado, Usuario prestadoA) {
+    public Videojuego(int id, String titulo, String anho, Formato formato, Categoria categoria, Plataforma plataforma, String PEGI) {
         super(id, titulo, anho, formato);
         this.categoria = categoria;
         this.plataforma = plataforma;
         this.PEGI = PEGI;
-        this.prestado = prestado;
-        this.prestadoA = prestadoA;
     }
 
     // Constructor para crear videojuegos nuevos (sin id inicial)
-    public Videojuego(String titulo, String anho, Formato formato, Categoria categoria, Plataforma plataforma, String PEGI, boolean prestado, Usuario prestadoA) {
+    public Videojuego(String titulo, String anho, Formato formato, Categoria categoria, Plataforma plataforma, String PEGI) {
         super(titulo, anho, formato);
         this.categoria = categoria;
         this.plataforma = plataforma;
         this.PEGI = PEGI;
-        this.prestado = prestado;
-        this.prestadoA = prestadoA;
     }
     // Métodos getter para acceder a los atributos propios
         // Obtiene la categoría del videojuego.
